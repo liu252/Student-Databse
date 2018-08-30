@@ -1,9 +1,11 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class MenuSystem
 {
-    private Scanner sc = new Scanner(System.in);
-    public int startMenu()
+    private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    public int startMenu() throws IOException
     {
         
         System.out.println("Welcome to the Student Database!");
@@ -21,7 +23,7 @@ public class MenuSystem
         boolean menuInputValid = false;
         while(!menuInputValid)
         {
-            String menuInput = sc.nextLine();
+            String menuInput = br.readLine();
             try
             {
                 menuSelection = Integer.parseInt(menuInput);
@@ -43,35 +45,60 @@ public class MenuSystem
         
     }
     
-    public Student AddStudentMenu()
+    public Student AddStudentMenu() throws IOException
     {
         Student addStudent = new Student();
         System.out.print("Please Enter Student's ID: ");
         int idInput = integerCheck();
         System.out.print("Please Enter Student's First Name: ");
-        String fnInput = sc.nextLine();
+        String fnInput = br.readLine();
+        while(fnInput.length()>25)
+        {
+            System.out.println("Data Length Too Long! Please Enter a Shorter Name");
+            fnInput = br.readLine();
+        }
         System.out.print("Please Enter Student's Last Name: ");
-        String lnInput = sc.nextLine();
+        String lnInput = br.readLine();
+        while(lnInput.length()>25)
+        {
+            System.out.println("Data Length Too Long! Please Enter a Shorter Name");
+            lnInput = br.readLine();
+        }
         System.out.print("Please Enter Student's GPA: ");
         double gpaInput = doubleCheck();
+        while (gpaInput > 4 || gpaInput < 0)
+        {
+            System.out.println("Please Enter a GPA in the 4.0 Grade Range");
+            gpaInput = doubleCheck();
+        }
         System.out.print("Please Enter Student's Major: ");
-        String majorInput = sc.nextLine();
+        String majorInput = br.readLine();
+        while(majorInput.length()>10)
+        {
+            System.out.println("Data Length Too Long! Please Use Abbreviation of Major (i.e. CPSC for Computer Science)");
+            majorInput = br.readLine();
+        }
         System.out.print("Please Enter Student's Advisor: ");
-        String advisorInput = sc.nextLine();
+        String advisorInput = br.readLine();
+        while(advisorInput.length()>25)
+        {
+            System.out.println("Data Length Too Long! Please Enter a Shorter Name");
+            advisorInput = br.readLine();
+        }
         
         
-        addStudent.studentID = idInput;
-        addStudent.firstName = fnInput;
-        addStudent.lastName = lnInput;
-        addStudent.gpa = gpaInput;
-        addStudent.major = majorInput;
-        addStudent.advisor = advisorInput;
+        addStudent.setStudentID(idInput);
+        addStudent.setFirstName(fnInput);
+        addStudent.setLastName(lnInput);
+        addStudent.setGpa(gpaInput);
+        addStudent.setMajor(majorInput);
+        addStudent.setAdvisor(advisorInput);
         
         
         return addStudent;
     }
     
-    public Student UpdateStudentMenu()
+    public Student UpdateStudentMenu() throws IOException
     {
         Student updateStudent = new Student();
     
@@ -79,18 +106,19 @@ public class MenuSystem
         System.out.print("Please Enter Student's ID: ");
         int idInput = integerCheck();
         System.out.print("Please Enter Student's New Major: ");
-        String majorInput = sc.nextLine();
+        String majorInput = br.readLine();
         System.out.print("Please Enter Student's New Advisor: ");
-        String advisorInput = sc.nextLine();
+        String advisorInput = br.readLine();
         
-        updateStudent.studentID = idInput;
-        updateStudent.major = majorInput;
-        updateStudent.advisor = advisorInput;
+        updateStudent.setStudentID(idInput);
+        updateStudent.setMajor(majorInput);
+        updateStudent.setAdvisor(advisorInput);
         
         return updateStudent;
+        
     }
     
-    public int DeleteStudentMenu()
+    public int DeleteStudentMenu() throws IOException
     {
         System.out.print("Please Enter Student's ID: ");
         int idInput = integerCheck();
@@ -98,7 +126,7 @@ public class MenuSystem
         return idInput;
     }
     
-    public Student SearchStudentMenu()
+    public Student SearchStudentMenu() throws IOException
     {
         Student searchStudent = new Student();
         
@@ -110,7 +138,7 @@ public class MenuSystem
         boolean searchOptionValid = false;
         while(!searchOptionValid)
         {
-            String searchInput = sc.nextLine();
+            String searchInput = br.readLine();
             try
             {
                 searchOption = Integer.parseInt(searchInput);
@@ -129,33 +157,33 @@ public class MenuSystem
         if (searchOption == 1)
         {
             System.out.print("Please Enter Student's Major: ");
-            String majorInput = sc.nextLine();
-            searchStudent.major = majorInput;
+            String majorInput = br.readLine();
+            searchStudent.setMajor(majorInput);
         }
         else if (searchOption == 2)
         {
             System.out.print("Please Enter Student's GPA: ");
             double gpaInput = doubleCheck();
-            searchStudent.gpa = gpaInput;
+            searchStudent.setGpa(gpaInput);
         }
         else if (searchOption == 3)
         {
             System.out.print("Please Enter Student's Advisor: ");
-            String advisorInput = sc.nextLine();
-            searchStudent.advisor = advisorInput;
+            String advisorInput = br.readLine();
+            searchStudent.setAdvisor(advisorInput);
         }
         
         
         return searchStudent;
     }
     
-    private int integerCheck()
+    private int integerCheck() throws IOException
     {
         int inputCheck = 0;
         boolean inputValid = false;
         while(!inputValid)
         {
-            String input = sc.nextLine();
+            String input = br.readLine();
             try
             {
                 inputCheck = Integer.parseInt(input);
@@ -171,13 +199,13 @@ public class MenuSystem
     }
     
     
-    private double doubleCheck()
+    private double doubleCheck() throws IOException
     {
         double inputCheck = 0.0;
         boolean inputValid = false;
         while(!inputValid)
         {
-            String input = sc.nextLine();
+            String input = br.readLine();
             try
             {
                 inputCheck = Double.parseDouble(input);

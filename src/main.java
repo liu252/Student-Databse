@@ -1,7 +1,8 @@
+import java.io.IOException;
 
 public class main
 {
-    public static void main (String argv[])
+    public static void main (String argv[]) throws IOException
     {
         DBConnection connection = new DBConnection();
         while(true)
